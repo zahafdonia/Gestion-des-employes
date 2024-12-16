@@ -3,39 +3,41 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable; // Importer la classe Authenticatable
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Laravel\Sanctum\HasApiTokens; // Importez ce trait
+use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
-
 
 class User extends Authenticatable implements AuthenticatableContract
 {
-    use HasFactory;
-    use HasApiTokens, Notifiable;
+    use HasFactory, HasApiTokens, Notifiable;
 
-
-    protected $table = 'user';  // Nom de la table dans la base de données
-    protected $primaryKey = 'idU';  // Nom de la clé primaire
-    public $timestamps = false; // Désactiver les timestamps si non utilisés
+    protected $table = 'users';  // Nom de la table
+    protected $primaryKey = 'id';  // La clé primaire est 'id' (et non 'idU')
+    public $timestamps = true;  // Les timestamps sont utilisés dans la table
 
     protected $fillable = [
+        'name',
         'email',
         'password',
-        'lastname',
-        'name',
-        'idR',
-        'status',
+        'pin_code',
+        'permissions',
+        'email_verified_at',
+        'remember_token',
     ];
+
+    // Constantes pour les rôles
+    const ROLE_ADMIN = 1;
+    const ROLE_EMPLOYEE = 2;
 
     public function admin()
     {
-        return $this->hasOne(Admin::class, 'idU','idU');
+        return $this->hasOne(Admin::class, 'idU', 'id');
     }
 
     public function employee()
     {
-        return $this->hasOne(Employee::class, 'idU', 'idU');
+        return $this->hasOne(Employee::class, 'idU', 'id');
     }
 
     public function role()
@@ -45,11 +47,16 @@ class User extends Authenticatable implements AuthenticatableContract
 
     public function isAdmin()
     {
-        return $this->idR === 1; // Exemple, 1 peut être l'ID du rôle admin
+        return $this->idR === self::ROLE_ADMIN;
     }
 
     public function isEmployee()
     {
-        return $this->idR === 2; // Exemple, 2 peut être l'ID du rôle employee
+        return $this->idR === self::ROLE_EMPLOYEE;
+    }
+
+    public function loans()
+    {
+        return $this->hasMany(Loan::class, 'user_id');
     }
 }

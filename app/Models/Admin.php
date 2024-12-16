@@ -15,7 +15,7 @@ class Admin extends Model
     public $timestamps = false; // Désactiver les timestamps si non utilisés
 
     protected $fillable = [
-        'idU', 
+        'idU',
         // Ajouter ici d'autres champs spécifiques à l'administrateur
     ];
 
@@ -24,6 +24,11 @@ class Admin extends Model
     {
         return $this->belongsTo(User::class, 'idU');
     }
+    public function approvedLoans()
+    {
+        return $this->hasMany(Loan::class, 'admin_id');
+    }
+
 }
 
 

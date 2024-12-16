@@ -13,7 +13,7 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middleware = [
-        
+
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
         \Illuminate\Http\Middleware\ValidatePostSize::class,
         \Illuminate\Session\Middleware\StartSession::class,
@@ -28,7 +28,7 @@ class Kernel extends HttpKernel
      */
     protected $middlewareGroups = [
         'web' => [
-            
+
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\AuthenticateSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
@@ -52,18 +52,19 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-        
+
         'auth' => \App\Http\Middleware\Authenticate::class,
-        'role' => \App\Http\Middleware\RoleMiddleware::class, 
+        'role' => \App\Http\Middleware\RoleMiddleware::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'admin' => \App\Http\Middleware\AdminMiddleware::class,
-        
+        'admin' => \App\Http\Middleware\IsAdmin::class,
+
     ];
     protected $commands = [
-       
+
         \App\Console\Commands\HashUserPasswords::class,
         HashUserPasswords::class,
     ];
-    
+
 }

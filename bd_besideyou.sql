@@ -518,3 +518,17 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
+CREATE TABLE `loans` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `user_id` INT NOT NULL, -- L'utilisateur ayant soumis la demande
+  `amount` DOUBLE NOT NULL, -- Montant de la demande
+  `reason` VARCHAR(255), -- Raison de la demande
+  `status` ENUM('pending', 'approved', 'rejected') DEFAULT 'pending', -- Statut de la demande
+  `admin_id` INT NULL, -- L'admin qui a traité la demande
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (`user_id`) REFERENCES `user`(`idU`) ON DELETE CASCADE,
+  FOREIGN KEY (`admin_id`) REFERENCES `admin`(`idAdmin`) ON DELETE SET NULL
+);

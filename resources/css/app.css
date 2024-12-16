@@ -1,0 +1,11 @@
+/*
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+*/
+@import "bootstrap/dist/css/bootstrap.min.css";
+
+.small-circle {
+    width: 150px;
+    height: 150px;
+}

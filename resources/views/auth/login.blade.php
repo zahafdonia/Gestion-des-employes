@@ -1,72 +1,55 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion</title>
-    
-    <!-- Lien vers Bootstrap -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-</head>
-<body class="bg-light">
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card shadow">
-                    <div class="card-header text-center bg-primary text-white">
-                        <h2>Se connecter</h2>
-                    </div>
-                    <div class="card-body">
-                        <!-- Formulaire de connexion -->
-                        <form action="{{ url('login') }}" method="POST">
+@extends('layouts.app')
+@section('content')
+    <div class="main-wrapper">
+        <div class="account-content">
+           
+            <div class="container">
+                <div class="account-box">
+                    <div class="account-wrapper">
+                        <h3 class="account-title">Login</h3>
+                        <p class="account-subtitle">Access to our dashboard</p>
+                        <!-- Account Form -->
+                        <form method="POST" action="{{ route('login') }}">
                             @csrf
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Email :</label>
-                                <input 
-                                    type="email" 
-                                    id="email" 
-                                    name="email" 
-                                    class="form-control @error('email') is-invalid @enderror" 
-                                    value="{{ old('email') }}" 
-                                    required
-                                    autofocus>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="text" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" placeholder="Enter Email">
                                 @error('email')
-                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
                                 @enderror
                             </div>
-                            
-                            <div class="mb-3">
-                                <label for="password" class="form-label">Mot de passe :</label>
-                                <input 
-                                    type="password" 
-                                    id="password" 
-                                    name="password" 
-                                    class="form-control @error('password') is-invalid @enderror" 
-                                    required>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col">
+                                        <label>Password</label>
+                                    </div>
+                                </div>
+                                <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="Enter Password">
                                 @error('password')
-                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
                                 @enderror
                             </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col">
+                                        <label></label>
+                                    </div>
 
-                            <button type="submit" class="btn btn-primary w-100">Se connecter</button>
+                                </div>
+                            </div>
+                            <div class="form-group text-center">
+                                <button class="btn btn-primary account-btn" type="submit">Login</button>
+                            </div>
+
                         </form>
+                        <!-- /Account Form -->
                     </div>
-
-                    @if ($errors->any())
-                        <div class="card-footer bg-danger text-white">
-                            <ul class="mb-0">
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- Script pour Bootstrap (si nécessaire) -->
-    <script src="{{ asset('js/app.js') }}"></script>
-</body>
-</html>
+@endsection
